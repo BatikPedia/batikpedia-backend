@@ -9,6 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 4. Run `python manage.py runserver`
 
 The server should be running on localhost:8000.
+
 *Note that the `initialize.py` is not used in settings.py because it does pre-run things, such as generate configuration files, inject dependencies, etc.*
 
 ## Deployment
