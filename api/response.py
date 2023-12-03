@@ -6,6 +6,6 @@ class Response(Response):
         data = {
             'status': status,
             'message': message if message else '',
-            'data': data if type(data) == dict else {},
+            'data': data if type(data) in [dict, list] else {},
         }
         super().__init__(data, status, template_name, headers, exception, content_type)
