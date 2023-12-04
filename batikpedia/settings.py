@@ -157,3 +157,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=6),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=14),
 }
+
+# Firebase Configuration
+FIREBASE_ORM_CERTIFICATE = 'service_account_key.json'
+FIREBASE_ORM_BUCKET_NAME = 'BUCKET__NAME.appspot.com'
