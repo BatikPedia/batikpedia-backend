@@ -6,10 +6,12 @@ from .services import *
 @api_view(['GET'])
 def list_all_batik_view(request):
     result = list_all_batik()
-    return Response(data=result, message="nih")
+    return Response(data=result, message="Successfully fetched all batik informations", status=200)
 
 @api_view(['GET'])
-def get_batik_by_id_view(request):
-    result = get_batik_by_id('wmSVCHei1hnksB4uUCU5')
-    return Response(data=result, message="nih")
-    
+def get_batik_by_id_view(request, batik_id):
+    result = get_batik_by_id(batik_id)
+    if result is None:
+        return Response(message="Batik ID not found!", status=404)
+    return Response(data=result, message="Batik found!", status=200)
+
