@@ -5,10 +5,10 @@ from rest_framework.exceptions import NotFound
 class Scanning(FirebaseModel):
     NOT_NULL_FIELDS = ['user', 'batik']
 
-    def __init__(self, user:str='', batik:str='', document=None, uuid=None) -> None:
+    def __init__(self, user:str='', batik:str='', uuid=None) -> None:
         self.user = user
         self.batik = batik
-        super().__init__(document, uuid)
+        super().__init__(uuid)
 
     def save(self):
         # Foreign key validation

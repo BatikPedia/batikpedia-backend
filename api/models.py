@@ -23,7 +23,7 @@ from rest_framework.exceptions import ValidationError, NotFound
 class FirebaseModel:
     NOT_NULL_FIELDS: list
 
-    def __init__(self, document=None, uuid=None) -> None:
+    def __init__(self, uuid=None) -> None:
         self.__collection = self.__class__.__name__
         self.__created_at = datetime.now().isoformat()
         self.__updated_at = self.__created_at
