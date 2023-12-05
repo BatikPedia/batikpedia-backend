@@ -17,4 +17,5 @@ urlpatterns = [
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     path('batik/', include('batik.urls')),
+    path('scanning/', include('scanning.urls')),
 ]
