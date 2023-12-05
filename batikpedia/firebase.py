@@ -45,6 +45,7 @@ class FirestoreClient():
         '''
         if not sub:
             self.__db.collection(collection).document(uuid).update(data)
+            return
         if 'collection' not in sub.keys():
             print('"collection" not found in sub keys.')
             return
