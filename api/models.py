@@ -4,7 +4,7 @@ from batikpedia.firebase import FirestoreClient
 from rest_framework.exceptions import ValidationError, NotFound
 
 # Create your models here.
-class BaseModel:
+class FirebaseModel:
     COLLECTION_NAME: str
     NOT_NULL_FIELDS: list
 
@@ -15,7 +15,9 @@ class BaseModel:
         self.__uuid = uuid or ''
     
     def __update_updated_at(self): self.__updated_at = datetime.now().isoformat()
-    def __exists(self): return self.__fsclient.read(collection=self.COLLECTION_NAME, uuid=self.__uuid).exists
+    def __exists(self):
+        if not self.__fsclient.read(collection=self.COLLECTION_NAME, uuid=self.__uuid).exists:
+            raise NotFound(f'Document {self.__uuid} does not exists.')
 
     def get(self, many=False):
         data = {}
@@ -25,6 +27,7 @@ class BaseModel:
         else:
             doc = self.__fsclient.read(self.COLLECTION_NAME, uuid=self.__uuid)
             if doc.exists: data = {'uuid': doc.id, **doc.to_dict()}
+            else: raise NotFound(f'Document {self.__uuid} does not exists.')
         return data
 
     def save(self):
