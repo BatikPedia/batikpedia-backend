@@ -2,6 +2,8 @@ from batikpedia.firebase import FirestoreClient
 
 client = FirestoreClient()
 
+BATIK_PATTERN_COLLECTION_NAME = 'BatikPattern'
+
 def __batik_doc_to_batik_obj(document) :
     batik_obj = {
         "id" : document.id,
@@ -15,7 +17,7 @@ def __batik_doc_to_batik_obj(document) :
 
 # Create your views here.
 def list_all_batik():
-    from_fs = client.read('BatikPattern')
+    from_fs = client.read(BATIK_PATTERN_COLLECTION_NAME)
     result = []
     for document in from_fs:
         result.append(__batik_doc_to_batik_obj(document))
@@ -23,7 +25,7 @@ def list_all_batik():
 
 
 def get_batik_by_id(batik_id):
-    result = client.read('BatikPattern', batik_id)
+    result = client.read(BATIK_PATTERN_COLLECTION_NAME, batik_id)
     try:
         return __batik_doc_to_batik_obj(result)
     except TypeError:
