@@ -28,4 +28,4 @@ jobs:
           gcloud run deploy batikpedia-api-gateway \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/batikpedia-backend \
             --platform managed \
-            --region asia-southeast2  # Change this to your desired region
+            --region asia-southeast2
