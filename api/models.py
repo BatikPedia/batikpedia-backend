@@ -64,7 +64,7 @@ class FirebaseModel:
     
     def update(self):
         self.__exists()
-        self.__update_updated_at
+        self.__update_updated_at()
         data = {k: v for k, v in self.__dict__.items() if '__' not in k and v}
         data.update({'updated_at': self.__updated_at})
         self.__fsclient.update(collection=self.__collection, uuid=self.__uuid, data=data)
