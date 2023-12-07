@@ -30,7 +30,7 @@ jobs:
       - name: Build and Deploy
         run: |
           gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/batikpedia-backend . --no-source
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/batikpedia-backend .
           gcloud run deploy batikpedia-api-gateway \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/batikpedia-backend \
             --platform managed \
