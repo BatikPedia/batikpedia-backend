@@ -10,6 +10,19 @@ class Scanning(FirebaseModel):
         self.batik = batik
         super().__init__(uuid)
 
+    def get(self, many=False):
+        data = super().get(many)
+
+        # Serialize batik data
+        if many:
+            for d in data:
+                batik_data = self.get_firestore_client().read(BatikPattern().get_collection_name(), uuid=d.get('batik', ''))
+                d.update({'batik': {'uuid': batik_data.id, **batik_data.to_dict()}})
+        else:
+            batik_data = self.get_firestore_client().read(BatikPattern().get_collection_name(), uuid=data.get('batik', ''))
+            data.update({'batik': {'uuid': batik_data.id, **batik_data.to_dict()}})
+        return data
+
     def save(self):
         # Foreign key validation
         if self.batik and not self.get_firestore_client().read(BatikPattern().get_collection_name(), uuid=self.batik).exists:
