@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - staging
       - cloud-run-cicd
 
 jobs:
