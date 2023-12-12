@@ -1,0 +1,40 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - master
+      - staging
+      - cloud-run-cicd
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1.1.1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          export_default_credentials: true
+
+      - name: Authenticate with gcloud
+        uses: google-github-actions/auth@v2.0.0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+        
+      - name: Build and Deploy
+        run: |
+          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+          echo "Creating Cloud Build...."
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_BUILD_IMAGE_NAME }} .
+          echo "Deploying to Cloud Run...."
+          gcloud run deploy ${{ secrets.GCP_CLOUD_RUN_SERVICE_NAME }} \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_BUILD_IMAGE_NAME }} \
+            --platform managed \
+            --region asia-southeast2
