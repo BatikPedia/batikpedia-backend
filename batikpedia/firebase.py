@@ -1,8 +1,16 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import os
+from json import loads
 
-cred = credentials.Certificate('service_account_key.json')
+FIREBASE_SA_KEY = os.getenv('FIREBASE_SA_KEY', None)
+
+if FIREBASE_SA_KEY == None:
+    cred = credentials.Certificate('service_account_key.json')
+else:
+    cred = credentials.Certificate(loads(FIREBASE_SA_KEY)) # convert string to dict
+
 firebase_admin.initialize_app(cred)
 
 class FirestoreClient():
