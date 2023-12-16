@@ -1,15 +1,28 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import os
-from json import loads
+from dotenv import dotenv_values
+import json
 
-FIREBASE_SA_KEY = os.getenv('FIREBASE_SA_KEY', None)
+# Write some neccessary constants here
+SERVICE_ACCOUNT_KEY = 'service_account_key'
 
-if FIREBASE_SA_KEY == None:
-    cred = credentials.Certificate('service_account_key.json')
-else:
-    cred = credentials.Certificate(loads(FIREBASE_SA_KEY)) # convert string to dict
+env = dotenv_values('.env')
+
+firebase, data = {
+    SERVICE_ACCOUNT_KEY: {k: v for k, v in env.items() if k.startswith('FIREBASE.SERVICE_ACCOUNT_KEY')}
+}, {}
+
+for key in firebase.keys():
+    payload = ''
+    for k, v in firebase[key].items():
+        k = k.lower()
+        payload += f'  "{k[k.index(key) + len(key) + 1:]}": "{v}",\n'
+    payload = '{\n' + payload[:-2] + '\n}'
+    data.update({key: json.loads(payload)})
+
+# Certificate definition
+cred = credentials.Certificate(data.get(SERVICE_ACCOUNT_KEY, None))
 
 firebase_admin.initialize_app(cred)
 
