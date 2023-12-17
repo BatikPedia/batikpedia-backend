@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [staging]
 
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  APP_ENGINE_SERVICE_ACCOUNT: ${{ secrets.APP_ENGINE_SERVICE_ACCOUNT }}
+  FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
 jobs:
   build:
     name: Setup project
@@ -22,10 +27,6 @@ jobs:
       - name: Install requirements
         run: |
           pip install -r requirements.txt
-
-      - name: Gather static files
-        run: |
-          python manage.py collectstatic --noinput
       
       - name: Run migrations
         run: |
@@ -41,7 +42,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: ${{ secrets.PROJECT_ID }}
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
+          service_account_key: ${{ secrets.APP_ENGINE_SERVICE_ACCOUNT }}
           export_default_credentials: true
 
       - name: Deploy to App Engine
@@ -50,4 +51,4 @@ jobs:
           deliverables: app.yaml
           version: v1
           project_id: ${{ secrets.PROJECT_ID }}
-          credentials: ${{ secrets.SERVICE_ACCOUNT }}
+          credentials: ${{ secrets.APP_ENGINE_SERVICE_ACCOUNT }}
