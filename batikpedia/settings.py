@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 import datetime
 from pathlib import Path
 from dotenv import dotenv_values
@@ -27,10 +28,9 @@ ENV = dotenv_values('.env')
 SECRET_KEY = 'django-insecure-vktj1b_@c92#aizzw&2guq)4n@$xhnxw(_2x4r!nep1p=&a78!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
