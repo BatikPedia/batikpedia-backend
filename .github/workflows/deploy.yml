@@ -23,7 +23,6 @@ jobs:
       
       - name: Set up Google Cloud SDK
         run: |
-          echo ${{ env.CLOUD_RUN_SERVICE_ACCOUNT }} | base64 --decode > /tmp/account.json
           gcloud auth activate-service-account --key-file /tmp/account.json
           gcloud components install beta
       
