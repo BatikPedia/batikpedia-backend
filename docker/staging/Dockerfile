@@ -17,3 +17,5 @@ ENV PATH="/py/bin:$PATH"
 
 # Switch to non-root user in Docker.
 USER django-user
+
+CMD [ "uvicorn", "batikpedia.asgi:application", "--host", "0.0.0.0", "--port", "8000", "--reload", "--log-level=debug" ]

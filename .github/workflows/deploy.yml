@@ -18,17 +18,26 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Print project ID
-        run: echo ${{ env.PROJECT_ID }}
-
-      - uses: actions/checkout@v4
-
-      - name: Build and deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Google Cloud SDK
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
-          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
-          credentials: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
-          build-push: true
           project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ env.CLOUD_RUN_SERVICE_ACCOUNT }}
+          export_default_credentials: true
+
+      - name: Build an push Docker image
+        run: |
+          gcloud auth configure-docker
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }} .
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+      
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE }} \
+          --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }} \
+          --platform managed \
+          --region ${{ env.REGION }} \
+          --allow-unauthenticated
