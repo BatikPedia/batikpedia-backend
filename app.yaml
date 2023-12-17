@@ -1,0 +1,10 @@
+# [START batikpedia]
+service: default
+runtime: python39
+handlers:
+  - url: /static
+    static_dir: static/
+  - url: /.*
+    script: auto
+
+entrypoint: gunicorn -b :$PORT batikpedia.wsgi
