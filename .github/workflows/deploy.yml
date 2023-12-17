@@ -19,7 +19,7 @@ jobs:
     
     steps:
       - name: Print project ID
-        run: echo "Project ID: ${{ env.PROJECT_ID }}"
+        run: echo ${{ env.PROJECT_ID }}
 
       - uses: actions/checkout@v4
 
