@@ -20,23 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build Docker Image
-        run: |
-          docker buildx create --name batikpedia-builder
-          docker buildx use batikpedia-builder
-          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:latest .
-
-      - name: Authenticate to GCP
-        uses: google/cloud/sdk@v7
-        with:
-          credentials: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
-      
-      - name: Deploy to Cloud Run
+      - name: Build and deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+          credentials: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
+          build-push: true
