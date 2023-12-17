@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Print project ID
+        run: echo "Project ID: ${{ env.PROJECT_ID }}"
+
       - uses: actions/checkout@v4
 
       - name: Build and deploy to Cloud Run
@@ -28,3 +31,4 @@ jobs:
           image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
           credentials: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
           build-push: true
+          --project: ${{ env.PROJECT_ID }}
