@@ -46,9 +46,10 @@ jobs:
           export_default_credentials: true
 
       - name: Deploy to App Engine
-        uses: google-github-actions/deploy-appengine@v0
+        uses: google-github-actions/deploy-appengine@v1
         with:
           deliverables: app.yaml
           version: v1
           project_id: ${{ secrets.PROJECT_ID }}
           credentials: ${{ secrets.APP_ENGINE_SERVICE_ACCOUNT }}
+          working_directory: .
