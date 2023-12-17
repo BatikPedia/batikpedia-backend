@@ -1,0 +1,53 @@
+name: Deploy to Google App Engine
+
+on:
+  push:
+    branches: [staging]
+  pull_request:
+    branches: [staging]
+
+jobs:
+  build:
+    name: Setup project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+
+      - name: Gather static files
+        run: |
+          python manage.py collectstatic --noinput
+      
+      - name: Run migrations
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate
+  
+  deploy:
+    name: Deploy to Google App Engine
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect to gcloud
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
+          export_default_credentials: true
+
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@v0
+        with:
+          deliverables: app.yaml
+          version: v1
+          project_id: ${{ secrets.PROJECT_ID }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT }}
