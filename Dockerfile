@@ -8,4 +8,9 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "manage.py", "makemigrations", "&&", "python", "manage.py", "migrate", "&&", "gunicorn", "batikpedia.wsgi:application", "--bind", "0.0.0.0:8080"]
+# Create a script to run migrations and start the application
+RUN echo "python manage.py makemigrations && python manage.py migrate && gunicorn batikpedia.wsgi:application --bind 0.0.0.0:8080" > run.sh
+RUN chmod +x run.sh
+
+# Run the command
+CMD ["./run.sh"]
