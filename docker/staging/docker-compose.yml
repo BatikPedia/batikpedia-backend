@@ -6,9 +6,20 @@ services:
       context: ../../
       dockerfile: docker/staging/Dockerfile
     ports:
-      - 9000:8000
+      - 9000:8080
     volumes:
       - ../../:/app
-    command: uvicorn batikpedia.asgi:application --host 0.0.0.0 --port 8000 --reload --log-level=debug
+    command: gunicorn batikpedia.wsgi:application --bind 0.0.0.0:8080 --log-level=DEBUG
     environment:
       - DEBUG=1
+      - FIREBASE.SERVICE_ACCOUNT_KEY.TYPE=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.PROJECT_ID=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.PRIVATE_KEY_ID=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.PRIVATE_KEY=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.CLIENT_EMAIL=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.CLIENT_ID=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.AUTH_URI=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.TOKEN_URI=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.AUTH_PROVIDER_X509_CERT_URL=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.CLIENT_X509_CERT_URL=
+      - FIREBASE.SERVICE_ACCOUNT_KEY.UNIVERSE_DOMAIN=
