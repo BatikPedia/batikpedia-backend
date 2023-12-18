@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
-RUN python manage.py makemigrations E&& python manage.py migrate
+RUN python manage.py makemigrations && python manage.py migrate
 
 COPY . .
 
