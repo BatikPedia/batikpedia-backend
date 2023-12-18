@@ -19,6 +19,8 @@ Call our abang-abangan if you have any issue, thanks!
 from datetime import datetime
 from batikpedia.firebase import FirestoreClient
 from rest_framework.exceptions import ValidationError, NotFound
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
 
 class FirebaseModel:
     NOT_NULL_FIELDS: list
@@ -74,3 +76,54 @@ class FirebaseModel:
         self.__exists()
         self.__fsclient.delete(collection=self.__collection, uuid=self.__uuid)
         return
+
+   
+class UserManager(BaseUserManager):
+    def create_user(self, password=None, email=None):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        if (not password) or (not email):
+            raise ValueError('You must fill all required fields')
+
+        user = self.model(
+            email=self.normalize_email(email),
+        )
+
+        user.is_active = True
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username=None, password=None, email=None, phone_no=None):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        user = self.create_user(username, password, email, phone_no)
+
+        user.is_active = True
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
+
+
+class User(AbstractBaseUser):
+    # now we add the following additional fields
+    email = models.EmailField(unique=True)
+    username = models.CharField(default="", blank=True, max_length=20)
+    scan_collection = models.CharField(max_length=60, unique=True, default="scan-collection-id")
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['password']
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+
+    def __str__(self):
+        return self.email
+
+    objects = UserManager()

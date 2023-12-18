@@ -95,6 +95,8 @@ DATABASES = {
     }
 }
 
+TOKEN_EXPIRE_IN_MINUTES = 6000000
+JWT_AUTH_TOKEN_EXPIRY = TOKEN_EXPIRE_IN_MINUTES * 60
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -140,9 +142,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Rest Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'api.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -154,9 +156,12 @@ REST_FRAMEWORK = {
 # Simple JWT Token
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ['Bearer'],
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=6),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=14),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=60),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=30),
 }
+
+AUTH_USER_MODEL = 'api.User'
+
 
 # Firebase Configuration
 FIREBASE_ORM_CERTIFICATE = 'service_account_key.json'
