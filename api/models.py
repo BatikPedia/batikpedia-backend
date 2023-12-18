@@ -114,7 +114,6 @@ class User(AbstractBaseUser):
     # now we add the following additional fields
     email = models.EmailField(unique=True)
     username = models.CharField(default="", blank=True, max_length=20)
-    scan_collection = models.CharField(max_length=60, unique=True, default="scan-collection-id")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['password']
