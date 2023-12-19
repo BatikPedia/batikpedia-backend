@@ -56,8 +56,8 @@ env:
   SERVICE_STAGING: batikpedia-backend-staging
 
 jobs:
-  initialize:
-    name: Initialize
+  build:
+    name: Build
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
@@ -94,11 +94,6 @@ jobs:
           password: '${{ steps.auth.outputs.access_token }}'
           registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
   
-  build:
-    name: Build
-    needs: [ initialize ]
-    runs-on: ubuntu-latest
-    steps:
       - name: Build and Push Container
         if: github.ref == 'refs/heads/master'
         run: |-
