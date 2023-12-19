@@ -132,7 +132,7 @@ jobs:
       
       - name: Deploy to Cloud Run - Staging
         if: github.ref == 'refs/heads/staging'
-        id: deploy-staging
+        id: deploy_staging
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ env.SERVICE_STAGING }}
@@ -154,5 +154,8 @@ jobs:
             FIREBASE.SERVICE_ACCOUNT_KEY.UNIVERSE_DOMAIN=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_UNIVERSE_DOMAIN }}
 
       # If required, use the Cloud Run url output in later steps
-      - name: Show Output
+      - name: Show Output - Deploy
         run: echo ${{ steps.deploy.outputs.url }}
+      
+      - name: Show Output - Deploy Staging
+        run: echo ${{ steps.deploy_staging.outputs.url }}
