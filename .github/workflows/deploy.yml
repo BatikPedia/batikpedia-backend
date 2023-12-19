@@ -46,7 +46,7 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "staging", "cicd" ]
+    branches: [ "staging" ]
 
 env:
   PROJECT_ID: batikpedia-405909
