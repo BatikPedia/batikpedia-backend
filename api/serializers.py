@@ -8,10 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'email',
-            'scan_collection',
         )
-        extra_kwargs = {'username': {'required': False}}
-
     
 
 
