@@ -115,7 +115,7 @@ jobs:
   
   deploy:
     name: Deploy
-    needs: [ initialize ]
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Cloud Run
