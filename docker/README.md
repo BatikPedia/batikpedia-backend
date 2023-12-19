@@ -6,4 +6,10 @@ Firstly, fill in the environment variables in docker-compose file. Then, run thi
 docker compose -f docker/staging/docker-compose.yml up
 ```
 
-Server should be running on port 9000.
+or
+
+```
+docker compose -f docker/production/docker-compose.yml up
+```
+
+Server should be running on port 9000
