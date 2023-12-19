@@ -5,16 +5,22 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('healthz/', views.healthz, name='healthz'),
+    # Health Check
+    path('healthz/', healthz, name='healthz'),
 
-    path('auth/', obtain_auth_token),
+    # Auth Endpoints
+    path('auth', obtain_auth_token),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    
+    # Returns the user object
+    path('token/verify/', AuthenticateView.as_view(), name='check_auth'), 
+
+    # registration endpoint
+    path('auth/register', RegisterView.as_view(), name='register'), 
 
     path('batik/', include('batik.urls')),
     path('scanning/', include('scanning.urls')),

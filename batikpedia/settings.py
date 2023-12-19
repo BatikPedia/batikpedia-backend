@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 import datetime
 from pathlib import Path
 from dotenv import dotenv_values
@@ -27,10 +28,9 @@ ENV = dotenv_values('.env')
 SECRET_KEY = 'django-insecure-vktj1b_@c92#aizzw&2guq)4n@$xhnxw(_2x4r!nep1p=&a78!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -95,6 +95,8 @@ DATABASES = {
     }
 }
 
+TOKEN_EXPIRE_IN_MINUTES = 6000000
+JWT_AUTH_TOKEN_EXPIRY = TOKEN_EXPIRE_IN_MINUTES * 60
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -131,6 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -140,9 +144,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Rest Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'api.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -154,9 +158,12 @@ REST_FRAMEWORK = {
 # Simple JWT Token
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ['Bearer'],
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=6),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=14),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=60),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=30),
 }
+
+AUTH_USER_MODEL = 'api.User'
+
 
 # Firebase Configuration
 FIREBASE_ORM_CERTIFICATE = 'service_account_key.json'
