@@ -51,7 +51,7 @@ on:
 env:
   PROJECT_ID: batikpedia-405909
   GAR_LOCATION: asia-southeast2
-  SERVICE: batikpedia-backend
+  SERVICE: batikpedia-backend-staging
   REGION: asia-southeast2
 
 jobs:
