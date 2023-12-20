@@ -96,7 +96,7 @@ LOCAL_DB_CONFIG = {
 
 
 CLOUDSQL_DB_CONFIG = {
-    'ENGINE': 'mysql.connector.django',
+    'ENGINE': 'django.db.backends.mysql',
     'HOST': os.environ.get("CLOUDSQL_HOST"),
     'NAME': os.environ.get("CLOUDSQL_NAME"),
     'USER': os.environ.get("CLOUDSQL_USER"),
