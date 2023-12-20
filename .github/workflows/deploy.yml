@@ -112,6 +112,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
+          flags: '--set-sql-instance=[${{ secrets.PROD_CLOUD_SQL_INSTANCE }}]'
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
@@ -129,12 +130,17 @@ jobs:
             FIREBASE.SERVICE_ACCOUNT_KEY.AUTH_PROVIDER_X509_CERT_URL=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_AUTH_PROVIDER_X509_CERT_URL }}
             FIREBASE.SERVICE_ACCOUNT_KEY.CLIENT_X509_CERT_URL=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_CLIENT_X509_CERT_URL }}
             FIREBASE.SERVICE_ACCOUNT_KEY.UNIVERSE_DOMAIN=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_UNIVERSE_DOMAIN }}
+            CLOUDSQL_HOST=${{ secrets.PROD_CLOUDSQL_HOST }}
+            CLOUDSQL_NAME=${{ secrets.PROD_CLOUDSQL_NAME }}
+            CLOUDSQL_USER=${{ secrets.PROD_CLOUDSQL_USER }}
+            CLOUDSQL_PASSWORD=${{ secrets.PROD_CLOUDSQL_PASSWORD }}
       
       - name: Deploy to Cloud Run - Staging
         if: github.ref == 'refs/heads/staging'
         id: deploy_staging
         uses: google-github-actions/deploy-cloudrun@v2
         with:
+          flags: '--set-sql-instance=[${{ secrets.STAGING_CLOUD_SQL_INSTANCE }}]'
           service: ${{ env.SERVICE_STAGING }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
@@ -152,6 +158,10 @@ jobs:
             FIREBASE.SERVICE_ACCOUNT_KEY.AUTH_PROVIDER_X509_CERT_URL=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_AUTH_PROVIDER_X509_CERT_URL }}
             FIREBASE.SERVICE_ACCOUNT_KEY.CLIENT_X509_CERT_URL=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_CLIENT_X509_CERT_URL }}
             FIREBASE.SERVICE_ACCOUNT_KEY.UNIVERSE_DOMAIN=${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_UNIVERSE_DOMAIN }}
+            CLOUDSQL_HOST=${{ secrets.STAGING_CLOUDSQL_HOST }}
+            CLOUDSQL_NAME=${{ secrets.STAGING_CLOUDSQL_NAME }}
+            CLOUDSQL_USER=${{ secrets.STAGING_CLOUDSQL_USER }}
+            CLOUDSQL_PASSWORD=${{ secrets.STAGING_CLOUDSQL_PASSWORD }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output - Deploy
