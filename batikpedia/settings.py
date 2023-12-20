@@ -88,11 +88,30 @@ WSGI_APPLICATION = 'batikpedia.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+LOCAL_DB_CONFIG = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': BASE_DIR / 'db.sqlite3',
+}
+
+
+CLOUDSQL_DB_CONFIG = {
+    'ENGINE': 'django.db.backends.mysql',
+    'HOST': os.environ.get("CLOUDSQL_HOST"),
+    'NAME': os.environ.get("CLOUDSQL_NAME"),
+    'USER': os.environ.get("CLOUDSQL_USER"),
+    'PASSWORD': os.environ.get("CLOUDSQL_PASSWORD"),
+}
+
+
+if (os.environ.get("ENVIRONMENT") == "staging") or (os.environ.get("ENVIRONMENT") == "prod"):
+    USE_DB = CLOUDSQL_DB_CONFIG
+else:
+    USE_DB = LOCAL_DB_CONFIG
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': USE_DB
 }
 
 TOKEN_EXPIRE_IN_MINUTES = 6000000
