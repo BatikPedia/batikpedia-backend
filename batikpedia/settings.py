@@ -168,3 +168,6 @@ AUTH_USER_MODEL = 'api.User'
 # Firebase Configuration
 FIREBASE_ORM_CERTIFICATE = 'service_account_key.json'
 FIREBASE_ORM_BUCKET_NAME = 'BUCKET__NAME.appspot.com'
+
+# Machine learning model configuration.
+ML_MODELS = os.path.join(BASE_DIR, 'machine_learning', 'models')
