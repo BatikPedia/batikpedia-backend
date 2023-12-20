@@ -96,13 +96,15 @@ LOCAL_DB_CONFIG = {
 
 
 CLOUDSQL_DB_CONFIG = {
-    'ENGINE': 'django.db.backends.mysql',
+    'ENGINE': 'mysql.connector.django',
     'HOST': os.environ.get("CLOUDSQL_HOST"),
     'NAME': os.environ.get("CLOUDSQL_NAME"),
     'USER': os.environ.get("CLOUDSQL_USER"),
     'PASSWORD': os.environ.get("CLOUDSQL_PASSWORD"),
+    'PORT' : '3306'
 }
 
+print("Running in environment: {}".format(os.getenv("ENVIRONMENT", "local")))
 
 if (os.environ.get("ENVIRONMENT") == "staging") or (os.environ.get("ENVIRONMENT") == "prod"):
     USE_DB = CLOUDSQL_DB_CONFIG
