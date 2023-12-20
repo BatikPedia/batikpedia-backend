@@ -112,7 +112,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          flags: --set-cloudsql-instances=[${{ secrets.PROD_CLOUD_SQL_INSTANCE }}]
+          flags: --update-cloudsql-instances=${{ secrets.PROD_CLOUD_SQL_INSTANCE }}
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
@@ -140,7 +140,7 @@ jobs:
         id: deploy_staging
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          flags: --set-cloudsql-instances=[${{ secrets.STAGING_CLOUD_SQL_INSTANCE }}]
+          flags: --update-cloudsql-instances=${{ secrets.STAGING_CLOUD_SQL_INSTANCE }}
           service: ${{ env.SERVICE_STAGING }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
