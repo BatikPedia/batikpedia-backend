@@ -10,6 +10,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .auth_utils import *
 from keras.preprocessing.image import img_to_array
 from PIL import Image
+from batik.services import get_batik_by_id
 
 import numpy as np
 import tensorflow as tf
@@ -102,9 +103,12 @@ class PredictBatikView(APIView):
             prediction_label = "unknown"
 
         # Prepare response.
+        
+            
         response_data = {
             'file_name' : file_name,
-            'batik_pred': prediction_label
+            'batik_pred': prediction_label,
+            'batik_info' : get_batik_by_id(prediction_label) if prediction_label != "unknown" else None
         }
         
         response_message = 'Successfully predicted an image'
