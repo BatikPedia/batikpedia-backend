@@ -24,4 +24,7 @@ urlpatterns = [
 
     path('batik/', include('batik.urls')),
     path('scanning/', include('scanning.urls')),
+
+    # Batik model prediction endpoint.
+    path('predict_batik/', PredictBatikView.as_view(), name='predict_batik')
 ]
