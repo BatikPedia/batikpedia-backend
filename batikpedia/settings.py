@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import pymysql
 import os
 import datetime
 from pathlib import Path
@@ -88,12 +89,37 @@ WSGI_APPLICATION = 'batikpedia.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+
+LOCAL_DB_CONFIG = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': BASE_DIR / 'db.sqlite3',
 }
+
+
+CLOUDSQL_DB_CONFIG = {
+    'ENGINE': 'django.db.backends.mysql',
+    'HOST': os.environ.get("CLOUDSQL_HOST"),
+    'NAME': os.environ.get("CLOUDSQL_NAME"),
+    'USER': os.environ.get("CLOUDSQL_USER"),
+    'PASSWORD': os.environ.get("CLOUDSQL_PASSWORD"),
+    'PORT' : '3306'
+}
+
+print("Running in environment: {}".format(os.getenv("ENVIRONMENT", "local")))
+
+if (os.environ.get("ENVIRONMENT") == "staging") or (os.environ.get("ENVIRONMENT") == "prod"):
+    USE_DB = CLOUDSQL_DB_CONFIG
+else:
+    USE_DB = LOCAL_DB_CONFIG
+
+
+DATABASES = {
+    'default': USE_DB
+}
+
+if (os.environ.get("ENVIRONMENT") == "staging") or (os.environ.get("ENVIRONMENT") == "prod"):
+    pymysql.version_info = (1, 4, 9, "final", 0)
+    pymysql.install_as_MySQLdb()
 
 TOKEN_EXPIRE_IN_MINUTES = 6000000
 JWT_AUTH_TOKEN_EXPIRY = TOKEN_EXPIRE_IN_MINUTES * 60

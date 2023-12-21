@@ -1,4 +1,4 @@
-FROM python:3.9-alpine
+FROM python:3.9
 LABEL maintainer="darielgaz@gmail.com"
 
 WORKDIR /

@@ -12,7 +12,7 @@ SERVICE_ACCOUNT_KEY = 'service_account_key'
 env = os.environ
 
 firebase, data = {
-    SERVICE_ACCOUNT_KEY: {k: v for k, v in env.items() if k.startswith('FIREBASE.SERVICE_ACCOUNT_KEY')}
+    SERVICE_ACCOUNT_KEY: {k: v for k, v in env.items() if k.startswith('FIREBASE_SERVICE_ACCOUNT_KEY_')}
 }, {}
 
 for key in firebase.keys():
