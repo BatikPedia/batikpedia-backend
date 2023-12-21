@@ -10,8 +10,6 @@ SERVICE_ACCOUNT_KEY = 'service_account_key'
 
 # env = dotenv_values('.env')
 env = os.environ
-print("os.environ:")
-print(env)
 
 firebase, data = {
     SERVICE_ACCOUNT_KEY: {k: v for k, v in env.items() if k.startswith('FIREBASE_SERVICE_ACCOUNT_KEY_')}
@@ -24,9 +22,6 @@ for key in firebase.keys():
         payload += f'  "{k[k.index(key) + len(key) + 1:]}": "{v}",\n'
     payload = '{\n' + payload[:-2] + '\n}'
     data.update({key: json.loads(payload)})
-
-print("Loaded variables:")
-print(data.get(SERVICE_ACCOUNT_KEY))
 
 # Certificate definition
 cred = credentials.Certificate(data.get(SERVICE_ACCOUNT_KEY, None))
