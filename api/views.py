@@ -89,17 +89,17 @@ class PredictBatikView(APIView):
 
         # Converting prediction label values to label names
         if (prediction_label_value == 0):
-            prediction_label = "batik kawung"
+            prediction_label = "kawung"
         elif (prediction_label_value == 1):
-            prediction_label = "batik megamendung"
+            prediction_label = "mega-mendung"
         elif (prediction_label_value == 2):
-            prediction_label = "batik parang"
+            prediction_label = "parang"
         elif (prediction_label_value == 3):
-            prediction_label = "batik segar jagad"
+            prediction_label = "sekar-jagad"
         elif (prediction_label_value == 4):
-            prediction_label = "batik tambal"
+            prediction_label = "tambal"
         else:
-            prediction_label = "unkown"
+            prediction_label = "unknown"
 
         # Prepare response.
         response_data = {
