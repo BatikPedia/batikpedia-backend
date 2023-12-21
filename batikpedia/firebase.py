@@ -10,6 +10,8 @@ SERVICE_ACCOUNT_KEY = 'service_account_key'
 
 # env = dotenv_values('.env')
 env = os.environ
+print("os.environ:")
+print(env)
 
 firebase, data = {
     SERVICE_ACCOUNT_KEY: {k: v for k, v in env.items() if k.startswith('FIREBASE.SERVICE_ACCOUNT_KEY')}
