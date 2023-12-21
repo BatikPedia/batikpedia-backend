@@ -23,6 +23,9 @@ for key in firebase.keys():
     payload = '{\n' + payload[:-2] + '\n}'
     data.update({key: json.loads(payload)})
 
+print("Loaded variables:")
+print(data.get(SERVICE_ACCOUNT_KEY))
+
 # Certificate definition
 cred = credentials.Certificate(data.get(SERVICE_ACCOUNT_KEY, None))
 
