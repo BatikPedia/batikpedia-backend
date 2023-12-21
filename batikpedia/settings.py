@@ -118,7 +118,7 @@ DATABASES = {
 }
 
 if (os.environ.get("ENVIRONMENT") == "staging") or (os.environ.get("ENVIRONMENT") == "prod"):
-    pymysql.version_info = (1, 4, 6, "final", 0)
+    pymysql.version_info = (1, 4, 9, "final", 0)
     pymysql.install_as_MySQLdb()
 
 TOKEN_EXPIRE_IN_MINUTES = 6000000
