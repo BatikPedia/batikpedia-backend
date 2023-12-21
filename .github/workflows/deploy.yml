@@ -96,14 +96,14 @@ jobs:
       - name: Build and Push Container
         if: github.ref == 'refs/heads/master'
         run: |-
-          sudo apt-get update -y && sudo apt-get install build-essential -y
+          sudo apt-get update -y && sudo apt-get install build-essential gcc g++ -y
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}"
       
       - name: Build and Push Container - Staging
         if: github.ref == 'refs/heads/staging'
         run: |-
-          sudo apt-get update -y && sudo apt-get install build-essential -y
+          sudo apt-get update -y && sudo apt-get install build-essential gcc g++ -y
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE_STAGING }}/${{ env.SERVICE_STAGING }}:${{ github.sha }}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE_STAGING }}/${{ env.SERVICE_STAGING }}:${{ github.sha }}"
 
