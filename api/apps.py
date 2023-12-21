@@ -1,8 +1,13 @@
 from django.apps import AppConfig
 from django.conf import settings
-from tensorflow.keras.models import load_model
 from tensorflow import keras
 import os
+from google.cloud import storage
+
+BUCKET_NAME = "batikpedia-apigateway-bucket-staging"
+
+storage_client = storage.Client()
+bucket = storage_client.bucket(BUCKET_NAME)
 
 
 class ApiConfig(AppConfig):
@@ -11,5 +16,5 @@ class ApiConfig(AppConfig):
 
 class BatikPredictionModelConfig(AppConfig):
     name = 'predictionAPI'
-    MODEL_FILE = os.path.join(settings.ML_MODELS, "batik_model_final.h5")
-    model = keras.models.load_model(MODEL_FILE)
+    model_file = bucket.blob('ML-model/batik_model_final.h5')
+    model = keras.models.load_model(model_file.name)
