@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import pymysql
 import os
 import datetime
 from pathlib import Path
@@ -115,6 +116,10 @@ else:
 DATABASES = {
     'default': USE_DB
 }
+
+if (os.environ.get("ENVIRONMENT") == "staging") or (os.environ.get("ENVIRONMENT") == "prod"):
+    pymysql.version_info = (1, 4, 2, "final", 0)
+    pymysql.install_as_MySQLdb()
 
 TOKEN_EXPIRE_IN_MINUTES = 6000000
 JWT_AUTH_TOKEN_EXPIRY = TOKEN_EXPIRE_IN_MINUTES * 60
