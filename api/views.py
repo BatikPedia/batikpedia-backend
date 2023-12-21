@@ -65,9 +65,10 @@ class PredictBatikView(APIView):
 
         # Get file image from JSON
         file = request.FILES['image']
+        file_name = file.name
 
         pillow_image = Image.open(file)                     # Convert file to Pillow image    
-        pillow_image = pillow_image.resize((250, 250))      # Resize
+        pillow_image = pillow_image.resize((256, 256))      # Resize
         pillow_image = pillow_image.convert("L")            # Greyscale
         
         image_np_array = img_to_array(pillow_image)         # Convert Pillow image to numpy array
@@ -101,7 +102,11 @@ class PredictBatikView(APIView):
             prediction_label = "unkown"
 
         # Prepare response.
-        response_data = {'batik_pred': prediction_label}
+        response_data = {
+            'file_name' : file_name,
+            'batik_pred': prediction_label
+        }
+        
         response_message = 'Successfully predicted an image'
         response_status = status.HTTP_200_OK
 

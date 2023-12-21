@@ -11,5 +11,5 @@ class ApiConfig(AppConfig):
 
 class BatikPredictionModelConfig(AppConfig):
     name = 'predictionAPI'
-    MODEL_FILE = os.path.join(settings.ML_MODELS, "batik_model.h5")
+    MODEL_FILE = os.path.join(settings.ML_MODELS, "batik_model_final.h5")
     model = keras.models.load_model(MODEL_FILE)
