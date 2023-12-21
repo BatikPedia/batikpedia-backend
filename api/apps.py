@@ -4,7 +4,7 @@ from tensorflow import keras
 import os
 from tensorflow.python.lib.io import file_io
 
-BUCKET_NAME = "batikpedia-apigateway-bucket-staging"
+BUCKET_NAME = os.getenv("BUCKET_NAME")
 
 
 class ApiConfig(AppConfig):

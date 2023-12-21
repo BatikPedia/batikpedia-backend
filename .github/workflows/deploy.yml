@@ -137,6 +137,7 @@ jobs:
             CLOUDSQL_USER=${{ secrets.PROD_CLOUDSQL_USER }}
             CLOUDSQL_PASSWORD=${{ secrets.PROD_CLOUDSQL_PASSWORD }}
             ENVIRONMENT=prod
+            BUCKET_NAME=${{ secrets.PROD_BUCKET_NAME }}
       
       - name: Deploy to Cloud Run - Staging
         if: github.ref == 'refs/heads/staging'
@@ -166,6 +167,7 @@ jobs:
             CLOUDSQL_USER=${{ secrets.STAGING_CLOUDSQL_USER }}
             CLOUDSQL_PASSWORD=${{ secrets.STAGING_CLOUDSQL_PASSWORD }}
             ENVIRONMENT=staging
+            BUCKET_NAME=${{ secrets.STAGING_BUCKET_NAME }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output - Deploy
