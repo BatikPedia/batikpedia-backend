@@ -65,7 +65,9 @@ class PredictBatikView(APIView):
         batik_model = BatikPredictionModelConfig.model
 
         # Get file image from JSON
-        file = request.FILES['image']
+        file = request.FILES.get('image', None)
+        if file is None:
+            return Response(status=400, message="No image detected, please insert an image")
         file_name = file.name
 
         pillow_image = Image.open(file)                     # Convert file to Pillow image    
@@ -104,6 +106,9 @@ class PredictBatikView(APIView):
 
         # Prepare response.
         
+        if user_is_authenticated(request):
+            user = get_user_object(request)
+            # TODO: tolong tambahin logic buat nyimpen scan result dong hehe
             
         response_data = {
             'file_name' : file_name,
