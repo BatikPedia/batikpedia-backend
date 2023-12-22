@@ -25,6 +25,9 @@ Before running the application, here are some GitHub secrets need to be set (can
 15. CLOUDSQL_PASSWORD
 16. WIF_PROVIDDER
 17. WIF_SERVICE_ACCOUNT
+18. ENVIRONMENT
+19. BUCKET_NAME
+20. DEBUG
 
 Alternately, as you can see in `.github/workflows/deploy.yml`, there's an alternate option for authenticating Google Cloud for the deployment. In order to do that, set up the `GCP_CREDENTIALS` secret.
 
