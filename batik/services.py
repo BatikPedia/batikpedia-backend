@@ -11,6 +11,7 @@ def __batik_doc_to_batik_obj(document) :
         "province" : document.to_dict()["province"],
         "history" : document.to_dict()["history"],
         "references" : document.to_dict()["references"],
+        "photos" : document.to_dict()["photos"]
     }
     return batik_obj
 
