@@ -5,7 +5,11 @@ from .services import *
 
 @api_view(['GET'])
 def list_all_batik_view(request):
-    result = list_all_batik()
+    query = request.query_params
+    if 'province' in query:
+        result = list_batik_by_province(query['province'])
+    else:
+        result = list_all_batik()
     return Response(data=result, message="Successfully fetched all batik informations", status=200)
 
 @api_view(['GET'])

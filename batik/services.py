@@ -30,3 +30,11 @@ def get_batik_by_id(batik_id):
         return __batik_doc_to_batik_obj(result)
     except TypeError:
         return None
+    
+
+def list_batik_by_province(province_name):
+    from_fs = client.read(BATIK_PATTERN_COLLECTION_NAME, where=["province", "==", province_name])
+    result = []
+    for document in from_fs:
+        result.append(__batik_doc_to_batik_obj(document))
+    return result
